@@ -52,8 +52,6 @@ class test_car(unittest.TestCase):
             self.x.write_to_log_file(f'Failed (test_start_drive):{error}')
 
 
-
-
     def test_close(self):
         '''
         name : artium brovarnik
@@ -103,6 +101,18 @@ class test_car(unittest.TestCase):
         try:
             self.assertEqual(self.x.get_gear_by_speed(200),6)
             self.x.write_to_log_file(f'Passed test_gear_by_speed: {200})')
+        except AssertionError as ass:
+            self.x.write_to_log_file(f'Fail test_gear_by_speed: {ass}')
+
+    def test_fuel_to_drive(self):
+        '''
+        :name artium brovarnik
+        :data 23.1.23
+        desc: check if you can drive some distanse , if not buy benzin and check money amount
+        '''
+        try:
+            self.assertEqual(self.x.feul_for_drive(2000),0)
+            self.x.write_to_log_file(f'Passed test_gear_by_speed: {1500})')
         except AssertionError as ass:
             self.x.write_to_log_file(f'Fail test_gear_by_speed: {ass}')
 

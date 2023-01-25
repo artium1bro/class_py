@@ -3,7 +3,6 @@ from car import Car
 
 if __name__ == '__main__':
 
-
     x = Car()
 
 try:
@@ -21,14 +20,11 @@ try:
         speed = x.get_speed(3)
         print(f'for example , if you drive in thirt gear , your speed is : {speed}')
 
-        x.get_speed(6)
+        s1 = x.get_speed(6)
+        print(f'if you gear is {6} , your speed is' , s1)
 
-        x.buy_benzin(10)
-
-        print(x.get_gear_by_speed(50))
-
-
-
+        m=x.buy_benzin(10)
+        print(f'if you have 500 shekels and you buy {10} liter fuel , your corrent money amount is :', m )
 
 except ValueError as e:
     print(e)

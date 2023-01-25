@@ -5,49 +5,57 @@ import os
 class Car():
     load_dotenv()
 
-    def __init__(self):
+    def __init__(self):    #constractor
         self.feul = int(os.getenv('feul'))
         self.feulco =  float(os.getenv('feulco'))
         self.money =   int(os.getenv('money'))
         self.gear =    int(os.getenv('gear'))
         self.speed =   int(os.getenv('speed'))
+        self.status = int(os.getenv('status'))
 
     def start(self):
         '''
         :name : artium
         : date : 23.1
         :desc : the func start the car and do ->  gear up from 0 to 1
-        :return : gear level
+        :return : car status 1/0
         '''
-        if self.gear == 0:
+        if  self.status ==0 :
             if self.feul > 0:
+                self.status = 1
                 self.gear  = 0
-                return self.gear
+                return self.status
         else:
-            return 'car alredy in drive '
-
+            return 'car alredy driven  '
 
 
     def close(self):
         '''
-        desc : the func close the car -> gear = 0
-        :return:
+        :name : artium brovarnik
+        date : 23.1.23
+        desc : the func close the car -> gear,speed,status = 0
+        :return: car status
         '''
-        if self.gear !=0:
+        if self.status !=0:
             self.gear = 0
             self.speed = 0
-            return self.gear
+            self.status = 0
+            return self.status
         else :
-            return 'the car alredy in stop status'
+            return 'the car alredy in turned off'
 
 
     def get_speed(self,gear):
         '''
+        :name : artium brovarnik
+        :date : 24.1.23
         :param gear:
         :return: speed of the car
         '''
+        x = os.getenv(f'max_gear')
         if (gear>int(os.getenv('max_gear')) or gear < 0):
-            raise ValueError(os.getenv('error_value_range'))
+            raise ValueError(x.format(os.getenv('error_value_range')))
+
         else:
             self.speed = gear * int(os.getenv('mph'))
             return self.speed
@@ -59,19 +67,19 @@ class Car():
         :param destination
         :return: liters by km
         '''
-        return destination // int(os.getenv('feulco'))
+        return destination / int(os.getenv('feulco'))
 
 
     def drive(self,km):
         '''
-        :desc : the func get km and culc how much feul you have after
-        :param km - you want drive:
-        :return: feul status after drive
+        :desc : the func get km and culc how much fuel you have after driving
+        :param km that you want drive:
+        :return: feul amount after drive
         '''
-        if not self.start():
+        if  self.status ==0:
             self.start()
-        if self.feul > (km/int(os.getenv('feulco'))):
-            self.feul= self.feul- (km//int(os.getenv('feulco')))
+        if self.feul > self.how_much_liter_to_destination(km):
+            self.feul= self.feul- self.how_much_liter_to_destination(km)
             return self.feul
         else:
             raise OverflowError( os.getenv('er_feu'))
@@ -82,28 +90,27 @@ class Car():
         :name artium brovarnik
         :data 23.1.23
         desc: calc if you have feul to this distance , if not buy and update your money
-        :param liter
+        :param km
         :return: money after buying
         '''
-        if (self.feul< km/int(os.getenv('fuelco'))):
+        if (self.feul< self.how_much_liter_to_destination(km)):
 
-            liter_ineed = km/int(os.getenv('fuelco')) - self.feul
-            if (self.money>= liter_ineed*int(os.getenv('liter_price'))):
-                self.buy_benzin(liter_ineed)
+            liter_ineed_buy = self.how_much_liter_to_destination(km) - self.feul
+            if (self.money>= liter_ineed_buy*int(os.getenv('liter_price'))):
+                self.buy_benzin(liter_ineed_buy)
                 return self.money
             else:
                 raise(os.getenv('error_value_money'))
         else:
-            self.feul = self.feul- km/int(os.getenv('fuelco'))
+            self.feul = self.feul- self.how_much_liter_to_destination(km)
             return self.money
-
-
-
 
 
     def buy_benzin(self,liter):
         '''
-        desc: calc how much money i have after buying fuel , check that you have this sum of money
+        :name: artium brovarnik
+        :date : 23.1.23
+        :desc: calc how much money i have after buying fuel , check that you have this sum of money
         :param liter
         :return: money after buying
         '''
@@ -119,9 +126,8 @@ class Car():
         '''
         desc: func return your gear by speed
         :param sp:
-        :return: yout gear level
+        :return: your gear level
         '''
-
         if sp<=0:
             raise ValueError(os.getenv('error_value_speed'))
         elif sp > 0 and sp<30:
@@ -138,25 +144,29 @@ class Car():
 
     def gear_up(self):
         '''
+        : name : artium brovarnik
+        : date : 23.1.23
         decs : the func add 1 to gear , check that cannot up from level 6
         :return: gear level
         '''
-
         if self.gear ==int(os.getenv('max_gear')):
             x = os.getenv(f'error_value_maxGear')
             raise OverflowError(x.format(int(os.getenv('max_gear'))))
         else:
-            self.gear = self.gear+1
-            self.speed = self.speed +int(os.getenv('mph'))
-            return self.gear
-
+            if (self.status==1):
+                self.gear = self.gear+1
+                self.speed = self.speed +int(os.getenv('mph'))
+                return self.gear
+            else: raise ValueError(os.getenv('error_value_startcar'))
 
 
     def write_to_log_file(self,str):
         """
-            :desc : write all exceptions to log file
-            :param str :string that describe the error
-            :return: new line in log file
+        : name : artium brovarnik
+        :date : 23.1.23
+        :desc : write all test result Pass / Fail  in log file
+        :param str :string that describe the error
+        :return: new line in log file
         """
         f= open('D:/pythonProject/class/logfsfile.txt', 'a')
         f.write(f"{str}, {datetime.datetime.now()}, \n")
