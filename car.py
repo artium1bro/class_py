@@ -80,7 +80,8 @@ class Car():
             self.start()
         if self.feul > self.how_much_liter_to_destination(km):
             self.feul= self.feul- self.how_much_liter_to_destination(km)
-            return self.feul
+        elif self.feul < self.how_much_liter_to_destination(km):
+            self.feul_for_drive(km)
         else:
             raise OverflowError( os.getenv('er_feu'))
 
@@ -168,6 +169,6 @@ class Car():
         :param str :string that describe the error
         :return: new line in log file
         """
-        f= open('D:/pythonProject/class/logfsfile.txt', 'a')
+        f= open('logfsfile.txt', 'a')
         f.write(f"{str}, {datetime.datetime.now()}, \n")
         f.close()

@@ -66,6 +66,7 @@ class test_car(unittest.TestCase):
         except AssertionError as ass:
             self.x.write_to_log_file(f'Failed (test_close): {ass}')
 
+
     def test_how_much_liter_to_destination(self):
         '''
         name : artium brovarnik
@@ -104,18 +105,18 @@ class test_car(unittest.TestCase):
         except AssertionError as ass:
             self.x.write_to_log_file(f'Fail test_gear_by_speed: {ass}')
 
+
     def test_fuel_to_drive(self):
         '''
         :name artium brovarnik
         :data 23.1.23
-        desc: check if you can drive some distanse , if not buy benzin and check money amount
+        desc: check if you can drive some distanse , if not, buy fuel and check money amount
         '''
         try:
-            self.assertEqual(self.x.feul_for_drive(2000),0)
-            self.x.write_to_log_file(f'Passed test_gear_by_speed: {1500})')
+            self.assertEqual(self.x.feul_for_drive(1200),400)
+            self.x.write_to_log_file(f'Passed fuel_to_drive: {1500})')
         except AssertionError as ass:
-            self.x.write_to_log_file(f'Fail test_gear_by_speed: {ass}')
-
+            self.x.write_to_log_file(f'Fail fuel_to_drive: {ass}')
 
 
 

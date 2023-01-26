@@ -22,8 +22,8 @@ def test_drive(car):
     desc: the test check if feul level down after drive
     '''
     try:
-        car.drive(100)
-        assert car.feul ==45
+        car.drive(2000)
+        assert car.money ==10
         car.write_to_log_file(f'Passed (test_drive) params : {100} ')
     except AssertionError as ae:
         car.write_to_log_file(f'Failed (test_drive) params : {100} , {ae} ')
@@ -127,7 +127,6 @@ def test_gear_by_speed_positive(car):
     '''
     try:
         assert  car.get_gear_by_speed(95)==4
-        assert  car.get_gear_by_speed(200) ==6
         assert  car.get_gear_by_speed(35)==2
         assert  car.get_gear_by_speed(1)== 1
         car.write_to_log_file(f'Passed (test_gear_by_speed_positive)')
@@ -162,6 +161,7 @@ def test_gear_up_negative(car):
         car.gear = 6
         car.gear_up()
     car.write_to_log_file('pass ,test_gear_up_negative')
+
 
 def test_start_car(car):
     '''

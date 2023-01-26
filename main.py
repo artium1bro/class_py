@@ -26,6 +26,8 @@ try:
         m=x.buy_benzin(10)
         print(f'if you have 500 shekels and you buy {10} liter fuel , your corrent money amount is :', m )
 
+
+
 except ValueError as e:
     print(e)
     x.write_to_log_file(e)
@@ -36,5 +38,4 @@ except TypeError as e:
 
 except Exception as e:
     x.write_to_log_file(e)
-
 
